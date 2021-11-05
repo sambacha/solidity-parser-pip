@@ -1,8 +1,13 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 set -o errexit
+ANTLR_JAR="antlr4.jar"
 
-antlr -Dlanguage=Python3 solidity-antlr4/Solidity.g4 -o src -visitor
+if [ ! -e "$ANTLR_JAR" ]; then
+  curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o "$ANTLR_JAR"
+fi
+
+java -jar antlr4.jar -Dlanguage=Python3 solidity-antlr4/Solidity.g4 -o src -visitor
 mv src/solidity-antlr4/* src/solidity_antlr4
 rm -rf src/solidity-antlr4
 
